@@ -32,6 +32,18 @@ export default function TabLayout() {
         style={styles.container}
         source={{ uri: 'https://coffee-frontend-tikz.onrender.com/' }}
         originWhitelist={['*']}
+        onError={(syntheticEvent) => {
+          const { nativeEvent } = syntheticEvent;
+          console.warn('WebView error: ', nativeEvent);
+        }}
+        onHttpError={(syntheticEvent) => {
+          const { nativeEvent } = syntheticEvent;
+          console.warn('WebView HTTP error: ', nativeEvent);
+        }}
+        onShouldStartLoadWithRequest={(request) => {
+          console.log("Trying to load URL: ", request.url);
+          return true; // allow navigation
+        }}
         mixedContentMode="always"
         allowsInlineMediaPlayback={true}  // Important for playsinline
         mediaPlaybackRequiresUserAction={false} // Allows autoplay
